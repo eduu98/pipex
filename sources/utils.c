@@ -6,11 +6,12 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 19:53:48 by ecruz-go          #+#    #+#             */
-/*   Updated: 2021/11/22 19:58:02 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2021/12/02 13:04:06 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+#include <limits.h>
 
 /* Function that will look for the path line inside the environment, will
  split and test each command path and then return the right one. */
@@ -60,26 +61,26 @@ void	execute(char *argv, char **envp)
 int	get_next_line(char **line)
 {
 	char	*buffer;
+	int		readed;
 	int		i;
-	int		r;
 	char	c;
 
 	i = 0;
-	r = 0;
-	buffer = (char *)malloc(10000);
+	readed = 0;
+	buffer = (char *)malloc(SSIZE_MAX);
 	if (!buffer)
 		return (-1);
-	r = read(0, &c, 1);
-	while (r && c != '\n' && c != '\0')
+	readed = read(0, &c, 1);
+	while (readed && c != '\n' && c != '\0')
 	{
 		if (c != '\n' && c != '\0')
 			buffer[i] = c;
 		i++;
-		r = read(0, &c, 1);
+		readed = read(0, &c, 1);
 	}
 	buffer[i] = '\n';
 	buffer[++i] = '\0';
 	*line = buffer;
 	free(buffer);
-	return (r);
+	return (readed);
 }
