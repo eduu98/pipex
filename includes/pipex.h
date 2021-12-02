@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 13:22:17 by ecruz-go          #+#    #+#             */
-/*   Updated: 2021/11/22 20:35:57 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2021/12/02 11:48:32 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,9 @@ void	error(void);
 char	*find_path(char *cmd, char **envp);
 int		get_next_line(char **line);
 void	execute(char *argv, char **envp);
+
+/* Bonus functions */
+int		open_file(char *argv, int i);
+void	usage(void);
 
 #endif
