@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 13:22:17 by ecruz-go          #+#    #+#             */
-/*   Updated: 2021/12/02 11:48:32 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2021/12/21 12:48:58 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@
 #define WRITE_END	1
 
 /* Mandatory functions */
+void	arg_error(int bonus);
 void	error(void);
+int		open_file(char *argv, int i);
 char	*find_path(char *cmd, char **envp);
-int		get_next_line(char **line);
 void	execute(char *argv, char **envp);
 
 /* Bonus functions */
-int		open_file(char *argv, int i);
-void	usage(void);
+int		get_next_line(char **line);
+
 
 #endif

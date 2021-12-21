@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecruz-go <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/10 11:57:26 by ecruz-go          #+#    #+#             */
-/*   Updated: 2021/04/10 11:57:31 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2021/12/21 12:59:06 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #include <string.h>
 #include <stdio.h>
 
+/**
+ * Compara las dos cadenas pasadas por parametro.
+ * El numero n es el numero de caracteres que se compara.
+ * Retorna 0 si las cadenas son iguales
+*/
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	unsigned int	r;

@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecruz-go <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:54:07 by ecruz-go          #+#    #+#             */
-/*   Updated: 2021/04/09 13:54:10 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2021/12/21 12:25:40 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-
+/**
+ * Busca la secuencia de carácteres
+ * contenida en la subcadena en una cadena de texto.
+ * Si no la encuentra retorna 0
+ * Si la encuentra retorna la posicion de la subcadena
+*/
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	size_t	i;

@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 19:53:56 by ecruz-go          #+#    #+#             */
-/*   Updated: 2021/11/26 12:30:56 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2021/12/21 13:12:43 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@
 void	child_process(char **argv, char **envp, int *fd)
 {
 	int		filein;
-
-	filein = open(argv[1], O_RDONLY, 0777);
-	if (filein == -1)
-		error();
+	
+	close(fd[WRITE_END]);
+	filein = open_file(argv[1], 2);
 	dup2(fd[WRITE_END], STDOUT_FILENO);
 	dup2(filein, STDIN_FILENO);
 	close(fd[READ_END]);
@@ -33,9 +32,8 @@ void	parent_process(char **argv, char **envp, int *fd)
 {
 	int		fileout;
 
-	fileout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (fileout == -1)
-		error();
+	close(fd[READ_END]);
+	fileout = open_file(argv[4], 1);
 	dup2(fd[READ_END], STDIN_FILENO);
 	dup2(fileout, STDOUT_FILENO);
 	close(fd[WRITE_END]);
@@ -60,13 +58,10 @@ int	main(int argc, char **argv, char **envp)
 			child_process(argv, envp, fd);
 		waitpid(pid1, NULL, 0);
 		parent_process(argv, envp, fd);
-		close(fd[READ_END]);
-		close(fd[WRITE_END]);
+		// close(fd[READ_END]);
+		// close(fd[WRITE_END]);
 	}
 	else
-	{
-		ft_putstr_fd("\033[31mError: Bad arguments\n\e[0m", 2);
-		ft_putstr_fd("Ex: ./pipex <file1> <cmd1> <cmd2> file2\n", 1);
-	}
+		arg_error(0);
 	return (0);
 }

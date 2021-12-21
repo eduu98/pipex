@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:16:00 by ecruz-go          #+#    #+#             */
-/*   Updated: 2021/12/02 12:16:11 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2021/12/21 13:15:26 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	child_process(char *argv, char **envp)
 		error();
 	if (pid == 0)
 	{
-		close(fd[0]);
+		close(fd[READ_END]);
 		dup2(fd[1], STDOUT_FILENO);
 		execute(argv, envp);
 	}
 	else
 	{
-		close(fd[1]);
+		close(fd[WRITE_END]);
 		dup2(fd[0], STDIN_FILENO);
 		waitpid(pid, NULL, 0);
 	}
@@ -49,13 +49,13 @@ void	here_doc(char *limiter, int argc)
 	char	*line;
 
 	if (argc < 6)
-		usage();
+		arg_error(1);
 	if (pipe(fd) == -1)
 		error();
 	reader = fork();
 	if (reader == 0)
 	{
-		close(fd[0]);
+		close(fd[READ_END]);
 		while (get_next_line(&line))
 		{
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
@@ -65,7 +65,7 @@ void	here_doc(char *limiter, int argc)
 	}
 	else
 	{
-		close(fd[1]);
+		close(fd[WRITE_END]);
 		dup2(fd[0], STDIN_FILENO);
 		wait(NULL);
 	}
@@ -100,5 +100,5 @@ int	main(int argc, char **argv, char **envp)
 		dup2(fileout, STDOUT_FILENO);
 		execute(argv[argc - 2], envp);
 	}
-	usage();
+	arg_error(1);
 }

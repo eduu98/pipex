@@ -6,12 +6,51 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 19:53:48 by ecruz-go          #+#    #+#             */
-/*   Updated: 2021/12/02 13:04:06 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2021/12/21 13:13:48 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-#include <limits.h>
+
+/* Display an error when arguments are invalid */
+void	arg_error(int bonus)
+{
+	ft_putstr_fd("\033[31mError: Argumentos invalidos\n\e[0m", 2);
+	if (bonus)
+	{
+		ft_putstr_fd("Pruebe:	./pipex archivo1 comando1 comando2 comando3 ... comandon archivo2\n", 1);
+		ft_putstr_fd("O pruebe: ./pipex here_doc LIMITADOR comando comando1 archivo\n", 1);
+	}
+	else
+	{
+		ft_putstr_fd("Pruebe: ./pipex archivo1 comando1 comando2 archivo2\n", 1);
+	}	
+	exit(EXIT_SUCCESS);
+}
+
+/* Print a generic error an exits the program with 1. */
+void	error(void)
+{
+	perror("\033[31mError");
+	exit(EXIT_FAILURE);
+}
+
+/* Function that opens the files with the right flags */
+int	open_file(char *argv, int i)
+{
+	int	file;
+
+	file = 0;
+	if (i == 0)
+		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	else if (i == 1)
+		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	else if (i == 2)
+		file = open(argv, O_RDONLY, 0777);
+	if (file == -1)
+		error();
+	return (file);
+}
 
 /* Function that will look for the path line inside the environment, will
  split and test each command path and then return the right one. */
@@ -39,13 +78,6 @@ char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
-/* A simple error displaying function. */
-void	error(void)
-{
-	perror("\033[31mError");
-	exit(EXIT_FAILURE);
-}
-
 /* Function that take the command and send it to find_path
  before executing it. */
 void	execute(char *argv, char **envp)
@@ -57,30 +89,3 @@ void	execute(char *argv, char **envp)
 		error();
 }
 
-/* Function that will read input from the terminal and return line. */
-int	get_next_line(char **line)
-{
-	char	*buffer;
-	int		readed;
-	int		i;
-	char	c;
-
-	i = 0;
-	readed = 0;
-	buffer = (char *)malloc(SSIZE_MAX);
-	if (!buffer)
-		return (-1);
-	readed = read(0, &c, 1);
-	while (readed && c != '\n' && c != '\0')
-	{
-		if (c != '\n' && c != '\0')
-			buffer[i] = c;
-		i++;
-		readed = read(0, &c, 1);
-	}
-	buffer[i] = '\n';
-	buffer[++i] = '\0';
-	*line = buffer;
-	free(buffer);
-	return (readed);
-}
