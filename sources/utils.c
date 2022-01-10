@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 19:53:48 by ecruz-go          #+#    #+#             */
-/*   Updated: 2021/12/21 13:13:48 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2022/01/10 13:15:41 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ void	arg_error(int bonus)
 	ft_putstr_fd("\033[31mError: Argumentos invalidos\n\e[0m", 2);
 	if (bonus)
 	{
-		ft_putstr_fd("Pruebe:	./pipex archivo1 comando1 comando2 comando3 ... comandon archivo2\n", 1);
-		ft_putstr_fd("O pruebe: ./pipex here_doc LIMITADOR comando comando1 archivo\n", 1);
+		ft_putstr_fd(
+			"Pruebe: ./pipex archivo1 cmd1 cmd2... cmdn archivo2\n", 1);
+		ft_putstr_fd(
+			"O: ./pipex here_doc LIMITADOR cmd1 cmd2 archivo\n", 1);
 	}
 	else
 	{
-		ft_putstr_fd("Pruebe: ./pipex archivo1 comando1 comando2 archivo2\n", 1);
+		ft_putstr_fd("Pruebe: ./pipex archivo1 cmd1 cmd2 archivo2\n", 1);
 	}	
 	exit(EXIT_SUCCESS);
 }
@@ -88,4 +90,3 @@ void	execute(char *argv, char **envp)
 	if (execve(find_path(cmd[0], envp), cmd, envp) == -1)
 		error();
 }
-

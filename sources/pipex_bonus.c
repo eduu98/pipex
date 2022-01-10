@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:16:00 by ecruz-go          #+#    #+#             */
-/*   Updated: 2021/12/21 13:15:26 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2022/01/10 11:10:26 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,23 @@
 void	child_process(char *argv, char **envp)
 {
 	pid_t	pid;
-	int		fd[2];
+	int		p[2];
 
-	if (pipe(fd) == -1)
+	if (pipe(p) == -1)
 		error();
 	pid = fork();
 	if (pid == -1)
 		error();
 	if (pid == 0)
 	{
-		close(fd[READ_END]);
-		dup2(fd[1], STDOUT_FILENO);
+		close(p[READ_END]);
+		dup2(p[1], STDOUT_FILENO);
 		execute(argv, envp);
 	}
 	else
 	{
-		close(fd[WRITE_END]);
-		dup2(fd[0], STDIN_FILENO);
+		close(p[WRITE_END]);
+		dup2(p[0], STDIN_FILENO);
 		waitpid(pid, NULL, 0);
 	}
 }
@@ -45,28 +45,28 @@ void	child_process(char *argv, char **envp)
 void	here_doc(char *limiter, int argc)
 {
 	pid_t	reader;
-	int		fd[2];
+	int		p[2];
 	char	*line;
 
 	if (argc < 6)
 		arg_error(1);
-	if (pipe(fd) == -1)
+	if (pipe(p) == -1)
 		error();
 	reader = fork();
 	if (reader == 0)
 	{
-		close(fd[READ_END]);
+		close(p[READ_END]);
 		while (get_next_line(&line))
 		{
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 				exit(EXIT_SUCCESS);
-			write(fd[1], line, ft_strlen(line));
+			write(p[1], line, ft_strlen(line));
 		}
 	}
 	else
 	{
-		close(fd[WRITE_END]);
-		dup2(fd[0], STDIN_FILENO);
+		close(p[WRITE_END]);
+		dup2(p[0], STDIN_FILENO);
 		wait(NULL);
 	}
 }

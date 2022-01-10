@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 13:22:17 by ecruz-go          #+#    #+#             */
-/*   Updated: 2021/12/21 12:48:58 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2022/01/10 12:54:04 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include "../Libft/libft.h"
 
 /* Variables for the pipes */
-#define READ_END	0
-#define WRITE_END	1
+# define READ_END	0
+# define WRITE_END	1
 
 /* Mandatory functions */
 void	arg_error(int bonus);
@@ -34,6 +34,5 @@ void	execute(char *argv, char **envp);
 
 /* Bonus functions */
 int		get_next_line(char **line);
-
 
 #endif
