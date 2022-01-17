@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 19:53:56 by ecruz-go          #+#    #+#             */
-/*   Updated: 2022/01/10 12:54:35 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2022/01/17 11:45:08 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,22 @@ void	parent_process(char **argv, char **envp, int *p)
 int	main(int argc, char **argv, char **envp)
 {
 	int	p[2];
-	int	pid1;
+	int	pid;
 
 	if (argc == 5)
 	{
 		if (pipe(p) == -1)
 			error();
-		pid1 = fork();
-		if (pid1 == -1)
+		pid = fork();
+		if (pid == -1)
 			error();
-		if (pid1 == 0)
+		if (pid == 0)
 			child_process(argv, envp, p);
-		waitpid(pid1, NULL, 0);
+		waitpid(pid, NULL, 0);
 		parent_process(argv, envp, p);
 	}
 	else
 		arg_error(0);
+	system("leaks pipex");
 	return (0);
 }

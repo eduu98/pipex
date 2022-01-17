@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:16:00 by ecruz-go          #+#    #+#             */
-/*   Updated: 2022/01/10 11:10:26 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2022/01/17 12:50:56 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	child_process(char *argv, char **envp)
 	else
 	{
 		close(p[WRITE_END]);
-		dup2(p[0], STDIN_FILENO);
+		dup2(p[READ_END], STDIN_FILENO);
 		waitpid(pid, NULL, 0);
 	}
 }
@@ -66,7 +66,7 @@ void	here_doc(char *limiter, int argc)
 	else
 	{
 		close(p[WRITE_END]);
-		dup2(p[0], STDIN_FILENO);
+		dup2(p[READ_END], STDIN_FILENO);
 		wait(NULL);
 	}
 }

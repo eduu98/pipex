@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 19:53:48 by ecruz-go          #+#    #+#             */
-/*   Updated: 2022/01/10 13:15:41 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2022/01/14 11:46:30 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	arg_error(int bonus)
 /* Print a generic error an exits the program with 1. */
 void	error(void)
 {
-	perror("\033[31mError");
+	perror("\033[31mError: ");
 	exit(EXIT_FAILURE);
 }
 

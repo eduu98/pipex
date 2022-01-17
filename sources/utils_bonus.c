@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:43:19 by ecruz-go          #+#    #+#             */
-/*   Updated: 2021/12/21 12:46:23 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2022/01/17 11:21:36 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	get_next_line(char **line)
 
 	i = 0;
 	readed = 0;
-	buffer = (char *)malloc(SSIZE_MAX);
+	buffer = (char *)malloc(10000);
 	if (!buffer)
 		return (-1);
 	readed = read(0, &c, 1);
