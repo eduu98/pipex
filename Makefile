@@ -6,7 +6,7 @@
 #    By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 19:47:07 by ecruz-go          #+#    #+#              #
-#    Updated: 2021/11/26 12:15:51 by ecruz-go         ###   ########.fr        #
+#    Updated: 2022/01/24 12:38:10 by ecruz-go         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,9 @@ LIBFT  = $(addprefix $(LIBF_DIR), $(LIBFT_A))
 
 HEADER	= -I./includes/
 
-CC 		= gcc
-CFLAGS 	= -Wall -Wextra -Werror -g
+CC 		 = gcc
+CFLAGS 	 = -Wall -Wextra -Werror -g
+DBGFLAGS = -g -fsanitize=address
 
 # --- COLORS ---
 NONE='\033[0m'
@@ -48,14 +49,26 @@ $(NAME):
 					@echo $(CURSIVE)$(GRAY) "     - Creating object directory..." $(NONE)
 					@mkdir -p $(OBJS_F)
 					@echo $(CURSIVE)$(GRAY) "     - Making object files..." $(NONE)
-					@gcc $(CFLAGS) -c $(addprefix $(SRCS_F), $(SRCS))
+					@$(CC) $(CFLAGS) -c $(addprefix $(SRCS_F), $(SRCS))
 					@echo $(CURSIVE)$(GRAY) "     - Moving object files to $(OBJS_F)..." $(NONE)	
 					@mv $(OBJS) $(OBJS_F)
 					@echo $(CURSIVE)$(GRAY) "     - Compiling Libft..." $(NONE)
 					@make -C $(LIBF_DIR)
 					@echo $(CURSIVE)$(GRAY) "     - Compiling $(NAME)..." $(NONE)
-					@gcc $(FLAGS) $(LIBFT) $(addprefix $(OBJS_F), $(OBJS)) -o $(NAME)
+					@$(CC) $(FLAGS) $(LIBFT) $(addprefix $(OBJS_F), $(OBJS)) -o $(NAME)
 					@echo $(GREEN)"- Pipex Compiled -"$(NONE)
+test:
+					@echo $(CURSIVE)$(GRAY) "     - Creating object directory..." $(NONE)
+					@mkdir -p $(OBJS_F)
+					@echo $(CURSIVE)$(GRAY) "     - Making object files..." $(NONE)
+					@$(CC) $(DBGFLAGS) -c $(addprefix $(SRCS_F), $(SRCS))
+					@echo $(CURSIVE)$(GRAY) "     - Moving object files to $(OBJS_F)..." $(NONE)	
+					@mv $(OBJS) $(OBJS_F)
+					@echo $(CURSIVE)$(GRAY) "     - Compiling Libft..." $(NONE)
+					@make -C $(LIBF_DIR)
+					@echo $(CURSIVE)$(GRAY) "     - Compiling $(NAME)..." $(NONE)
+					@$(CC) $(DBGFLAGS) $(LIBFT) $(addprefix $(OBJS_F), $(OBJS)) -o $(NAME)
+					@echo $(GREEN)"- Pipex Test Leaks Compiled -"$(NONE)
 
 bonus:		${OBJS_B}
 					@echo $(CURSIVE)$(GRAY) "     - Compiling Libft..." $(NONE)
@@ -63,6 +76,14 @@ bonus:		${OBJS_B}
 					@cp Libft/libft.a ./$(NAME)
 					@ar -rcs ${NAME} ${OBJS_B}
 					@$(CC) $(NAME) ${MAIN_B} -o ${PROG}
+					@echo $(GREEN)"Pipex Bonus Compiled!\n"
+
+bonus_test:		${OBJS_B}
+					@echo $(CURSIVE)$(GRAY) "     - Compiling Libft..." $(NONE)
+					@make re -C ./libft
+					@cp Libft/libft.a ./$(NAME)
+					@ar -rcs ${NAME} ${OBJS_B}
+					@$(CC) $(DBGFLAGS) $(NAME) ${MAIN_B} -o ${PROG}
 					@echo $(GREEN)"Pipex Bonus Compiled!\n"
 
 clean:

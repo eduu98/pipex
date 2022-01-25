@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:16:00 by ecruz-go          #+#    #+#             */
-/*   Updated: 2022/01/17 12:50:56 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2022/01/25 13:34:24 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,13 @@ void	here_doc(char *limiter, int argc)
 	}
 }
 
+/* Makes a dup2 from the file given and then closes the file */
+void	dup_close(src, dst)
+{
+	dup2(src, dst);
+	close(src);
+}
+
 /* Main function that run the childs process with the right file descriptor
  or display an error message if arguments are wrong. It will run here_doc
  function if the "here_doc" string is find in argv[1] */
@@ -93,11 +100,10 @@ int	main(int argc, char **argv, char **envp)
 			i = 2;
 			fileout = open_file(argv[argc - 1], 1);
 			filein = open_file(argv[1], 2);
-			dup2(filein, STDIN_FILENO);
+			dup_close(filein, STDIN_FILENO);
 		}
 		while (i < argc - 2)
 			child_process(argv[i++], envp);
-		dup2(fileout, STDOUT_FILENO);
 		execute(argv[argc - 2], envp);
 	}
 	arg_error(1);

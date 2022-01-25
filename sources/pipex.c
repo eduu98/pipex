@@ -6,7 +6,7 @@
 /*   By: ecruz-go <ecruz-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 19:53:56 by ecruz-go          #+#    #+#             */
-/*   Updated: 2022/01/17 11:45:08 by ecruz-go         ###   ########.fr       */
+/*   Updated: 2022/01/25 11:54:55 by ecruz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	child_process(char **argv, char **envp, int *p)
 	close(p[WRITE_END]);
 	dup2(filein, STDIN_FILENO);
 	close(p[READ_END]);
+	close(filein);
 	execute(argv[2], envp);
 }
 
@@ -37,6 +38,7 @@ void	parent_process(char **argv, char **envp, int *p)
 	close(p[READ_END]);
 	dup2(fileout, STDOUT_FILENO);
 	close(p[WRITE_END]);
+	close(fileout);
 	execute(argv[3], envp);
 }
 
@@ -61,6 +63,5 @@ int	main(int argc, char **argv, char **envp)
 	}
 	else
 		arg_error(0);
-	system("leaks pipex");
 	return (0);
 }
